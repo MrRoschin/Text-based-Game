@@ -4,6 +4,7 @@ class Cave():
         self.description = None
         self.linked_caves = {}
         self.character = None
+        self.item = None
 
     def get_description(self):
         return self.description
@@ -40,3 +41,12 @@ class Cave():
         else:
             print(f"You can't go {direction} from here.")
             return self
+
+    def get_item(self):
+        return self.item
+    
+    def set_item(self, item_name):
+        self.item = item_name
+
+    def describe(self):
+        print(f"{self.name}: {self.description}")

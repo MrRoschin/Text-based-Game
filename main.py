@@ -25,11 +25,15 @@ josephine = Friend("Josephine", "A friendly bat")
 josephine.set_conversation("Gidday")
 grotto.set_character(josephine)
 
-honey_jar = Item("Jar of Honey", "A jar filled with sweet, sticky honey. 20% of your health.")
-honey_jar.describe()
+honey_jar = Item("Jar of Honey")
+honey_jar.set_description("A jar filled with sweet, sticky honey. A tasty and distracting treat for the Wumpus!")
+cavern.set_item(honey_jar)
+bag = []
 
-artifact_acid = Item("Artifact Acid", "A mysterious acid that is extracted from ancient artifacts. It is the Wumpus's weakness.")
-artifact_acid.describe()
+artifact_acid = Item("Artifact Acid")
+artifact_acid.set_description("A mysterious acid that is extracted from ancient artifacts. It is the Wumpus's weakness.")
+dungeon.set_item(artifact_acid)
+bag = []
 
 current_cave = cavern
 dead = False
@@ -39,9 +43,10 @@ while dead == False:
     inhabitant = current_cave.get_character()
     if inhabitant is not None:
         inhabitant.describe()
-    command = input("> ")
+        command = input("> ")
     if command in ["north", "south", "east", "west"]:
         current_cave = current_cave.move(command)
+
     elif command == "talk":
         # Talk to the inhabitant - check whether there is one!
         if inhabitant is not None:
@@ -52,12 +57,23 @@ while dead == False:
             # Fight with the inhabitant, if there is one
             print("What will you fight with?")
             fight_with = input()
-            if inhabitant.fight(fight_with) == True:
-                # What happens if you win?
-                print("Bravo,hero you won the fight!")
-                current_room.set_character(None)
+            if fight_with in bag:
+                if inhabitant.fight(fight_with) == True:
+                    if Enemy.enemies_to_defeat == 0:
+                        print("Congratulations, you have survived another adventure!")
+                        dead = True
+
+                    # What happens if you win?
+                    print("Bravo,hero you won the fight!")
+                    current_room.set_character(None)
+                else:
+                    print("Scurry home, you lost the fight.")
+                    print("G A M E   O V E R")
+                    dead = True
+
             else:
-                print("Scurry home, you lost the fight.")
+                print("You don't have " + fight_with)
+        
         else:
             print("There is no one here to fight with")
 
@@ -69,3 +85,9 @@ while dead == False:
                 inhabitant.pat()
         else:
             print("There is no one here to pat :(")
+
+    elif command == "take":
+        if item is not None:
+            print("You put the " + item.get_name() + " in your bag")
+            bag.append(item.get_name())
+            current_room.set_item(None)
