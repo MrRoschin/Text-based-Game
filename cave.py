@@ -37,7 +37,7 @@ class Cave():
 
         if self.character is not None:
             self.character.describe()
-
+   
     def move(self, direction):
         if direction in self.linked_caves:
             return self.linked_caves[direction]
