@@ -33,7 +33,6 @@ bag = []
 artifact_acid = Item("Artifact Acid")
 artifact_acid.set_description("A mysterious acid that is extracted from ancient artifacts. It is the Wumpus's weakness.")
 dungeon.set_item(artifact_acid)
-bag = []
 
 current_cave = cavern
 dead = False
@@ -41,9 +40,9 @@ while dead == False:
     print("\n")
     current_cave.get_details()
     inhabitant = current_cave.get_character()
+    command = input("> ")
     if inhabitant is not None:
         inhabitant.describe()
-        command = input("> ")
     if command in ["north", "south", "east", "west"]:
         current_cave = current_cave.move(command)
 
@@ -65,14 +64,14 @@ while dead == False:
 
                     # What happens if you win?
                     print("Bravo,hero you won the fight!")
-                    current_room.set_character(None)
+                    current_cave(None)
                 else:
                     print("Scurry home, you lost the fight.")
                     print("G A M E   O V E R")
                     dead = True
 
             else:
-                print("You don't have " + fight_with)
+                print("You don't have " + fight_with.title())
         
         else:
             print("There is no one here to fight with")
@@ -87,7 +86,10 @@ while dead == False:
             print("There is no one here to pat :(")
 
     elif command == "take":
+        item = current_cave.get_item()
         if item is not None:
             print("You put the " + item.get_name() + " in your bag")
             bag.append(item.get_name())
-            current_room.set_item(None)
+            current_cave.set_item(None)
+        else:
+            print("There is nothing to take here")

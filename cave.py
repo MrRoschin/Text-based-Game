@@ -35,6 +35,9 @@ class Cave():
             cave = self.linked_caves[direction]
             print(f"The {cave.get_name()} is {direction}.")
 
+        if self.character is not None:
+            self.character.describe()
+
     def move(self, direction):
         if direction in self.linked_caves:
             return self.linked_caves[direction]
