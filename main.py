@@ -173,7 +173,7 @@ while not dead:
     elif command == "pat":
         if inhabitant is not None:
             if isinstance(inhabitant, Enemy):
-                print("I wouldn’t do that if I were you…")
+                print("I wouldn't do that if I were you…")
             else:
                 inhabitant.pat()
         else:
